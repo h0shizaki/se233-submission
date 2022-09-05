@@ -1,14 +1,12 @@
 package se233.chapter3.controller;
 
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
 import se233.chapter3.Launcher;
@@ -74,32 +72,35 @@ public class MainViewController {
         } );
 
         listView.setOnMouseClicked( event -> {
-            ArrayList<FileFreq> listOfLinks = uniqueSets.get(listView.getSelectionModel().getSelectedItem());
-            ListView<FileFreq> popupListView = new ListView<>() ;
-            LinkedHashMap<FileFreq,String> lookupTable = new LinkedHashMap<>() ;
+            try{
+                ArrayList<FileFreq> listOfLinks = uniqueSets.get(listView.getSelectionModel().getSelectedItem());
+                ListView<FileFreq> popupListView = new ListView<>() ;
+                LinkedHashMap<FileFreq,String> lookupTable = new LinkedHashMap<>() ;
 
-            for(int i = 0 ; i < listOfLinks.size() ; i++) {
-                lookupTable.put(listOfLinks.get(i), listOfLinks.get(i).getPath());
-                popupListView.getItems().add(listOfLinks.get(i));
-            }
-            popupListView.setPrefHeight(popupListView.getItems().size()*28);
-            popupListView.setOnMouseClicked( innerEvent -> {
-                Launcher.hs.showDocument("file:///"+lookupTable.get(popupListView.getSelectionModel().getSelectedItem()));
-                popupListView.getScene().getWindow().hide();
-            });
-
-
-            Popup popup = new Popup();
-            popup.getContent().add(popupListView);
-            popup.show(Launcher.stage);
-
-            popupListView.addEventHandler(KeyEvent.KEY_PRESSED , innerEvent -> {
-                if(KeyCode.ESCAPE == innerEvent.getCode()) {
-                    popup.hide();
+                for(int i = 0 ; i < listOfLinks.size() ; i++) {
+                    lookupTable.put(listOfLinks.get(i), listOfLinks.get(i).getPath());
+                    popupListView.getItems().add(listOfLinks.get(i));
                 }
-            } );
+                popupListView.setPrefHeight(popupListView.getItems().size()*28);
+                popupListView.setOnMouseClicked( innerEvent -> {
+                    Launcher.hs.showDocument("file:///"+lookupTable.get(popupListView.getSelectionModel().getSelectedItem()));
+                    popupListView.getScene().getWindow().hide();
+                });
 
+                Popup popup = new Popup();
+                popup.getContent().add(popupListView);
+                popup.show(Launcher.stage);
+
+                popupListView.addEventHandler(KeyEvent.KEY_PRESSED , innerEvent -> {
+                    if(KeyCode.ESCAPE == innerEvent.getCode()) {
+                        popup.hide();
+                    }
+                } );
+            }catch (Exception e){
+//                e.printStackTrace();
+            }
         });
+
 
         startButton.setOnAction( event -> {
             //Clear old data in list
