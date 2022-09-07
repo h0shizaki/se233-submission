@@ -7,6 +7,10 @@ import se233.chapter4.controller.GameLoop;
 import se233.chapter4.model.DrawingLoop;
 import se233.chapter4.view.Platform;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 public class Launcher extends Application {
     public static void main(String[] args) {
         launch(args);
@@ -14,6 +18,9 @@ public class Launcher extends Application {
 
     @Override
     public void start(Stage primaryStage) {
+        ExecutorService es = Executors.newFixedThreadPool(2) ;
+        ExecutorService es2 = Executors.newFixedThreadPool(2) ;
+
         Platform platform = new Platform() ;
         Scene scene = new Scene(platform,platform.WIDTH , platform.HEIGHT);
         GameLoop gameLoop = new GameLoop(platform);
@@ -25,7 +32,7 @@ public class Launcher extends Application {
         primaryStage.setTitle("platformer");
         primaryStage.setScene(scene);
         primaryStage.show();
-        (new Thread(gameLoop)).start();
-        (new Thread(drawingLoop)).start();
+        es.submit(new Thread(gameLoop)) ;
+        es2.submit(new Thread(drawingLoop));
     }
 }

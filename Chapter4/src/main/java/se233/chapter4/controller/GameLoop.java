@@ -21,18 +21,18 @@ public class GameLoop implements Runnable {
         if(platform.getKeys().isPressed(character.getLeftKey())){
             character.setScaleX(-1);
             character.moveLeft() ;
-            platform.getCharacter().trace();
+            character.trace();
         }
 
         if(platform.getKeys().isPressed(character.getRightKey())){
             character.setScaleX(1);
             character.moveRight() ;
-            platform.getCharacter().trace();
+            character.trace();
         }
 
         if(!platform.getKeys().isPressed(character.getLeftKey()) && !platform.getKeys().isPressed(character.getRightKey())){
             character.stop() ;
-            platform.getCharacter().trace();
+
         }
 
         if(platform.getKeys().isPressed(character.getLeftKey()) || platform.getKeys().isPressed(character.getRightKey())) {
@@ -42,17 +42,14 @@ public class GameLoop implements Runnable {
         if(platform.getKeys().isPressed(character.getUpKey())) {
             character.jump();
         }
-
-
     }
-
-
-
     @Override
     public void run() {
         while (running){
             float time = System.currentTimeMillis();
-            update(platform.getCharacter());
+            update(platform.getPlayer1());
+            update(platform.getPlayer2());
+            time = System.currentTimeMillis() - time ;
             if(time < interval){
                 try{
                     Thread.sleep((long)(interval-time));

@@ -10,15 +10,15 @@ public class DrawingLoop implements Runnable{
 
     public DrawingLoop(Platform platform){
         this.platform = platform ;
-        this.frameRate = 60 ;
+        this.frameRate = 30 ;
         this.interval = 1000.0f / frameRate ;
         this.running = true ;
     }
 
     private void checkDrawCollisions(Character character){
+        character.checkReachGameWall();
         character.checkReachHighest();
         character.checkReachFloor();
-        character.checkReachGameWall();
     }
 
     private void paint(Character character){
@@ -27,26 +27,22 @@ public class DrawingLoop implements Runnable{
 
     @Override
     public void run() {
-        while (running){
+        while (running) {
             float time = System.currentTimeMillis();
-            checkDrawCollisions(platform.getCharacter());
-            paint(platform.getCharacter());
-            time = System.currentTimeMillis() - time ;
-
-            if(time < interval){
-                try{
-                    Thread.sleep((long)(interval-time));
-                }catch (InterruptedException e){
-                    e.printStackTrace();
+            checkDrawCollisions(platform.getPlayer1());
+            paint(platform.getPlayer1());
+            checkDrawCollisions(platform.getPlayer2());
+            paint(platform.getPlayer2());
+            time = System.currentTimeMillis() - time;
+            if (time < interval) {
+                try {
+                    Thread.sleep((long) (interval - time));
+                } catch (InterruptedException e) {
                 }
-            }else{
-                try{
-                    Thread.sleep((long)(interval - (interval%time)));
-                }catch (InterruptedException e){
-                    e.printStackTrace();
-                }
-            }
-
-        }
-    }
+            } else {
+                try {
+                    Thread.sleep((long) (interval - (interval % time)));
+                } catch (InterruptedException e) {
+                } }
+        } }
 }
