@@ -8,8 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se233.chapter4.Launcher;
 import se233.chapter4.view.Platform;
-
-import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 
 public class Character extends Pane {
@@ -47,7 +45,6 @@ public class Character extends Pane {
         this.setTranslateX(x);
         this.setTranslateY(y);
 
-        System.out.println(img);
         this.characterImg = new Image(Launcher.class.getResourceAsStream(String.format("assets/%s.png",img)));
         if(img.equals("MegamanSheet")){
             this.CHARACTER_WIDTH = 64 ;
