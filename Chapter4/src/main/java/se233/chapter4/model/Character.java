@@ -3,14 +3,15 @@ package se233.chapter4.model;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Pane;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import se233.chapter4.Launcher;
 import se233.chapter4.view.Platform;
 
 public class Character extends Pane {
-    public static final int CHARACTER_WIDTH = 32;
-    public static final int CHARACTER_HEIGHT = 64;
+    public static int CHARACTER_WIDTH = 32;
+    public static int CHARACTER_HEIGHT = 64;
     private Image characterImg;
     private AnimatedSprite imageView;
     private int x, y;
@@ -29,7 +30,7 @@ public class Character extends Pane {
     boolean isMovingRight = false;
     boolean isMovingLeft = false;
 
-    Logger logger = LoggerFactory.getLogger(Character.class);
+
 
     public Character(int x, int y, int offsetX, int offsetY, KeyCode leftKey, KeyCode rightKey, KeyCode upKey, String img , int Xacc , int yAcc , int xMaxVel , int yMaxVel) {
 
@@ -45,7 +46,12 @@ public class Character extends Pane {
 
         System.out.println(img);
         this.characterImg = new Image(Launcher.class.getResourceAsStream(String.format("assets/%s.png",img)));
-        this.imageView = new AnimatedSprite(characterImg, 4, 4, 1, offsetX, offsetY, 16, 32);
+        if(img.equals("MegamanSheet")){
+            this.CHARACTER_WIDTH = 64 ;
+            this.imageView = new AnimatedSprite(characterImg, 5, 5, 1, offsetX, offsetY, 550, 500);
+        }else{
+            this.imageView = new AnimatedSprite(characterImg, 4, 4, 1, offsetX, offsetY, 16, 32);
+        }
 
         this.imageView.setFitHeight(CHARACTER_HEIGHT);
         this.imageView.setFitWidth(CHARACTER_WIDTH);
@@ -55,6 +61,8 @@ public class Character extends Pane {
         this.getChildren().addAll(this.imageView);
     }
 
+//    Logger logger = LoggerFactory.getLogger(Character.class) ;
+    Logger logger = LoggerFactory.getLogger(Character.class);
     public void repaint() {
         moveY();
         moveX();

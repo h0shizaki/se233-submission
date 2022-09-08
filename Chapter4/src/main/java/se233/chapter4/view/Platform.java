@@ -24,7 +24,7 @@ public class Platform extends Pane {
         backgroundImg.setFitHeight(HEIGHT);
         backgroundImg.setFitWidth(WIDTH);
         player1 = new Character(30,30,0,0, KeyCode.A , KeyCode.D,KeyCode.W, "MarioSheet",1,1,7,17) ;
-        player2 = new Character(0,30,0,48, KeyCode.LEFT , KeyCode.RIGHT,KeyCode.UP, "MegamanSheet",1,1,5,19) ;
+        player2 = new Character(0,30,0,0, KeyCode.LEFT , KeyCode.RIGHT,KeyCode.UP, "MegamanSheet",1,1,5,19) ;
 
         this.getChildren().addAll(backgroundImg ,player1, player2);
     }
