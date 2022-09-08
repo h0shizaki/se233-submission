@@ -3,6 +3,9 @@ package se233.chapter4;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se233.chapter4.controller.GameLoop;
 import se233.chapter4.controller.DrawingLoop;
 import se233.chapter4.view.Platform;
@@ -14,9 +17,10 @@ public class Launcher extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
     @Override
     public void start(Stage primaryStage) {
+
+
         ExecutorService es = Executors.newFixedThreadPool(2);
         ExecutorService es2 = Executors.newFixedThreadPool(2);
 

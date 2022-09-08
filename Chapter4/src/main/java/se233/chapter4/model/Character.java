@@ -9,6 +9,9 @@ import org.slf4j.LoggerFactory;
 import se233.chapter4.Launcher;
 import se233.chapter4.view.Platform;
 
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+
 public class Character extends Pane {
     public static int CHARACTER_WIDTH = 32;
     public static int CHARACTER_HEIGHT = 64;
@@ -30,7 +33,7 @@ public class Character extends Pane {
     boolean isMovingRight = false;
     boolean isMovingLeft = false;
 
-
+    private Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass()) ;
 
     public Character(int x, int y, int offsetX, int offsetY, KeyCode leftKey, KeyCode rightKey, KeyCode upKey, String img , int Xacc , int yAcc , int xMaxVel , int yMaxVel) {
 
@@ -61,8 +64,6 @@ public class Character extends Pane {
         this.getChildren().addAll(this.imageView);
     }
 
-//    Logger logger = LoggerFactory.getLogger(Character.class) ;
-    Logger logger = LoggerFactory.getLogger(Character.class);
     public void repaint() {
         moveY();
         moveX();
