@@ -3,6 +3,8 @@ package se233.chapter4.controller;
 import se233.chapter4.model.Character;
 import se233.chapter4.view.Platform;
 
+import java.util.ArrayList;
+
 public class DrawingLoop implements Runnable{
     private Platform platform;
     private int frameRate ;
@@ -16,24 +18,42 @@ public class DrawingLoop implements Runnable{
         this.running = true ;
     }
 
-    private void checkDrawCollisions(Character character){
-        character.checkReachGameWall();
-        character.checkReachHighest();
-        character.checkReachFloor();
+    private void checkDrawCollisions(ArrayList<Character> characters){
+        for(Character character : characters){
+            character.checkReachGameWall();
+            character.checkReachHighest();
+            character.checkReachFloor();
+        }
+
+        for (Character cA : characters){
+            for(Character cB: characters){
+                if(cA != cB){
+                    if(cA.getBoundsInParent().intersects(cB.getBoundsInParent())){
+                        cA.collided(cB);
+                        cB.collided(cA);
+                        return;
+                    }
+                }
+            }
+        }
+
     }
 
-    private void paint(Character character){
-        character.repaint();
+    private void paint(ArrayList<Character> characters){
+        for(Character character : characters){
+            character.repaint();
+        }
+
+
     }
 
     @Override
     public void run() {
         while (running) {
             float time = System.currentTimeMillis();
-            checkDrawCollisions(platform.getPlayer1());
-            paint(platform.getPlayer1());
-            checkDrawCollisions(platform.getPlayer2());
-            paint(platform.getPlayer2());
+
+            checkDrawCollisions(platform.getCharacters());
+            paint(platform.getCharacters());
             time = System.currentTimeMillis() - time;
             if (time < interval) {
                 try {

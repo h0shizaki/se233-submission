@@ -2,6 +2,9 @@ package se233.chapter4.controller;
 
 import se233.chapter4.model.Character;
 import se233.chapter4.view.Platform;
+import se233.chapter4.view.Score;
+
+import java.util.ArrayList;
 
 public class GameLoop implements Runnable {
 
@@ -17,38 +20,51 @@ public class GameLoop implements Runnable {
         this.running = true ;
     }
 
-    private void update(Character character){
-        if(platform.getKeys().isPressed(character.getLeftKey())){
-            character.setScaleX(-1);
-            character.moveLeft() ;
-            character.trace();
-        }
+    private void update(ArrayList<Character> characters){
+        for(Character character : characters){
+            if(platform.getKeys().isPressed(character.getLeftKey())){
+                character.setScaleX(-1);
+                character.moveLeft() ;
+                character.trace();
+            }
 
-        if(platform.getKeys().isPressed(character.getRightKey())){
-            character.setScaleX(1);
-            character.moveRight() ;
-            character.trace();
-        }
+            if(platform.getKeys().isPressed(character.getRightKey())){
+                character.setScaleX(1);
+                character.moveRight() ;
+                character.trace();
+            }
 
-        if(!platform.getKeys().isPressed(character.getLeftKey()) && !platform.getKeys().isPressed(character.getRightKey())){
-            character.stop() ;
+            if(!platform.getKeys().isPressed(character.getLeftKey()) && !platform.getKeys().isPressed(character.getRightKey())){
+                character.stop() ;
 
-        }
+            }
 
-        if(platform.getKeys().isPressed(character.getLeftKey()) || platform.getKeys().isPressed(character.getRightKey())) {
-            character.getImageView().tick();
-        }
+            if(platform.getKeys().isPressed(character.getLeftKey()) || platform.getKeys().isPressed(character.getRightKey())) {
+                character.getImageView().tick();
+            }
 
-        if(platform.getKeys().isPressed(character.getUpKey())) {
-            character.jump();
+            if(platform.getKeys().isPressed(character.getUpKey())) {
+                character.jump();
+            }
         }
     }
+
+    private void updateScore(ArrayList<Score> scoreList , ArrayList<Character> characterList){
+        javafx.application.Platform.runLater( () -> {
+            for (int i = 0; i < scoreList.size(); i++) {
+                scoreList.get(i).setPoint(characterList.get(i).getScore());
+            }
+        });
+    }
+
     @Override
     public void run() {
         while (running){
             float time = System.currentTimeMillis();
-            update(platform.getPlayer1());
-            update(platform.getPlayer2());
+                update(platform.getCharacters());
+
+            updateScore(platform.getScoreList() , platform.getCharacters());
+
             time = System.currentTimeMillis() - time ;
             if(time < interval){
                 try{

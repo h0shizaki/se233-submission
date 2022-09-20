@@ -9,13 +9,16 @@ import org.slf4j.LoggerFactory;
 import se233.chapter4.Launcher;
 import se233.chapter4.view.Platform;
 import java.lang.invoke.MethodHandles;
+import java.util.concurrent.TimeUnit;
 
 public class Character extends Pane {
-    public static int CHARACTER_WIDTH = 32;
-    public static int CHARACTER_HEIGHT = 64;
+    public int CHARACTER_WIDTH = 32;
+    public int CHARACTER_HEIGHT = 64;
     private Image characterImg;
     private AnimatedSprite imageView;
     private int x, y;
+    private int startX , startY;
+    private int offSetX , offSetY ;
     private KeyCode leftKey;
     private KeyCode rightKey;
     private KeyCode upKey;
@@ -30,6 +33,7 @@ public class Character extends Pane {
     boolean isJumping = false;
     boolean isMovingRight = false;
     boolean isMovingLeft = false;
+    private int score = 0 ;
 
     private Logger logger = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass()) ;
 
@@ -40,10 +44,16 @@ public class Character extends Pane {
         this.xMaxVelocity = xMaxVel;
         this.yMaxVelocity = yMaxVel;
 
+        this.startX = x ;
+        this.startY = y ;
+        this.offSetX = offsetX ;
+        this.offSetY = offsetY ;
+
         this.x = x;
         this.y = y;
         this.setTranslateX(x);
         this.setTranslateY(y);
+
 
         this.characterImg = new Image(Launcher.class.getResourceAsStream(String.format("assets/%s.png",img)));
         if(img.equals("MegamanSheet")){
@@ -139,6 +149,50 @@ public class Character extends Pane {
         }
     }
 
+    public void collided(Character c) {
+        if(isMovingLeft){
+            x = c.getX() + CHARACTER_WIDTH + 1 ;
+            stop();
+        }else if (isMovingRight){
+            x = c.getX() - CHARACTER_WIDTH - 1 ;
+            stop();
+        }
+
+        if(y < Platform.GROUND - CHARACTER_HEIGHT){
+            if(isFalling && y < c.getY() && (Math.abs(y-c.getY()) <= this.getCharacterHeight()+1) ){
+                score++ ;
+                y = Platform.GROUND - this.getCharacterHeight() - 5 ;
+                c.collapsed() ;
+                c.respawn() ;
+            }
+        }
+    }
+
+    public void respawn() {
+        x = startX ;
+        y = startY ;
+        imageView.setFitWidth(this.getCharacterWidth());
+        imageView.setFitHeight(this.getCharacterHeight());
+        isMovingRight = false ;
+        isMovingLeft = false ;
+        isFalling = true ;
+        canJump = false ;
+        isJumping = false ;
+    }
+
+    public void collapsed() {
+        imageView.setFitHeight(5);
+        y = Platform.GROUND - 5 ;
+        repaint();
+
+        try{
+            TimeUnit.MILLISECONDS.sleep(500);
+        }catch (InterruptedException e){
+            throw  new RuntimeException(e);
+        }
+
+    }
+
     public KeyCode getLeftKey() {
         return leftKey;
     }
@@ -153,6 +207,38 @@ public class Character extends Pane {
 
     public AnimatedSprite getImageView() {
         return imageView;
+    }
+
+    public  int getCharacterWidth() {
+        return CHARACTER_WIDTH;
+    }
+
+    public  int getCharacterHeight() {
+        return CHARACTER_HEIGHT;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getCHARACTER_WIDTH() {
+        return CHARACTER_WIDTH;
+    }
+
+    public int getOffSetX() {
+        return offSetX;
+    }
+
+    public int getOffSetY() {
+        return offSetY;
     }
 
     public void trace() {
