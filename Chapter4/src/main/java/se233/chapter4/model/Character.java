@@ -241,6 +241,77 @@ public class Character extends Pane {
         return offSetY;
     }
 
+    public int getStartX() {
+        return startX;
+    }
+
+    public int getStartY() {
+        return startY;
+    }
+
+    public int getyVelocity() {
+        return yVelocity;
+    }
+
+    public int getxVelocity() {
+        return xVelocity;
+    }
+
+    public int getxAcceleration() {
+        return xAcceleration;
+    }
+
+    public int getyAcceleration() {
+        return yAcceleration;
+    }
+
+    public int getxMaxVelocity() {
+        return xMaxVelocity;
+    }
+
+    public int getyMaxVelocity() {
+        return yMaxVelocity;
+    }
+
+    public boolean isFalling() {
+        return isFalling;
+    }
+
+    public boolean isCanJump() {
+        return canJump;
+    }
+
+    public boolean isJumping() {
+        return isJumping;
+    }
+
+    public boolean isMovingRight() {
+        return isMovingRight;
+    }
+
+    public boolean isMovingLeft() {
+        return isMovingLeft;
+    }
+
+    public void setMovingRight(boolean movingRight) {
+        isMovingRight = movingRight;
+    }
+
+    public void setMovingLeft(boolean movingLeft) {
+        isMovingLeft = movingLeft;
+    }
+
+    public void setFalling(boolean falling) {
+        isFalling = falling;
+    }
+
+    public void setJumping(boolean jumping) {
+        isJumping = jumping;
+    }
+    public void setX(int x){
+        this.x = x ;
+    }
+
     public void trace() {
         logger.info("x:{} y:{} vx:{} vy:{}", x, y, xVelocity, yVelocity);
     }
