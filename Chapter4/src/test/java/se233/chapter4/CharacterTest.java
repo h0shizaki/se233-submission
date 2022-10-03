@@ -167,7 +167,7 @@ public  class CharacterTest {
         updateMethod.invoke(gameLoopUnderTest, characterListUnderTest);
         characterA.collided(characterB);
         characterB.collided(characterA);
-        
+
         assertFalse("Character is stopped", characterA.isMovingRight() || characterA.isMovingLeft());
     }
 
