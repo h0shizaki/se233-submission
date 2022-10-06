@@ -15,6 +15,12 @@ public class Food {
         this.position = position ;
         this.rn = new Random();
     }
+    public Food(Point2D position, boolean isSpecialFood){
+        this.position = position ;
+        this.rn = new Random();
+        this.isSpecialFood = isSpecialFood;
+        this.score = 5 ;
+    }
     public Food(){
         this.rn = new Random();
         respawn();

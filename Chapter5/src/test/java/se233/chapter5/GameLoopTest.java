@@ -22,7 +22,7 @@ public class GameLoopTest {
     private Method collision ;
     private Method redraw ;
     private Method updateScore;
-    
+
     @Before
     public void init() throws NoSuchMethodException {
         JFXPanel jfxPanel = new JFXPanel();
@@ -73,6 +73,17 @@ public class GameLoopTest {
 //        assertEquals(gameLoopUnderTest.getSnake().getHead(),new Point2D(0,1));
         clockTickHelper();
 //        System.out.println(gameLoopUnderTest.getSnake().getSnakeScore());
-        assertNotEquals(gameLoopUnderTest.getSnake().getSnakeScore(),0);
+        assertNotEquals(0,gameLoopUnderTest.getSnake().getSnakeScore());
+    }
+
+    @Test
+    public void scoreShouldBeIncreasedByFiveWhenSnakeEatsFood() throws InvocationTargetException, IllegalAccessException{
+        gameLoopUnderTest = new GameLoop(new Platform(), new Snake(new Point2D(0,0)), new Food(new Point2D(0,1),true));
+        gameLoopUnderTest.getPlatform().setKey(KeyCode.DOWN);
+        clockTickHelper();
+//        assertEquals(gameLoopUnderTest.getSnake().getHead(),new Point2D(0,1));
+        clockTickHelper();
+//        System.out.println(gameLoopUnderTest.getSnake().getSnakeScore());
+        assertEquals(5,gameLoopUnderTest.getSnake().getSnakeScore());
     }
 }

@@ -18,7 +18,7 @@ public class Launcher extends Application {
     @Override
     public void start(Stage primaryStage) {
         Platform platform = new Platform();
-        Snake snake = new Snake(new Point2D(0,0));
+        Snake snake = new Snake(new Point2D(platform.WIDTH/2,platform.HEIGHT/2));
         Food food = new Food();
         GameLoop gameLoop = new GameLoop(platform,snake,food);
         Scene scene = new Scene(platform,platform.WIDTH * platform.TITLE_SIZE ,platform.HEIGHT * platform.TITLE_SIZE);

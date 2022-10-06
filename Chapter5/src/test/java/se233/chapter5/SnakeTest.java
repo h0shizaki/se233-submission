@@ -1,5 +1,6 @@
 package se233.chapter5;
 
+import javafx.embed.swing.JFXPanel;
 import org.junit.Before;
 import org.junit.Test;
 import se233.chapter5.model.Direction;
@@ -15,7 +16,7 @@ public class SnakeTest {
 
     @Before
     public void setup() {
-//        JFXPanel jfxPannel = new JFXPanel() ;
+        JFXPanel jfxPannel = new JFXPanel() ;
         snake = new Snake(new Point2D(0,0));
     }
 
@@ -87,7 +88,7 @@ public class SnakeTest {
     @Test
     public void foodShouldGiveScore() {
         Food normalFood = new Food();
-        assertEquals(normalFood.getScore(),1,0);
+        assertNotEquals(0,normalFood.getScore(),0);
     }
 
 }
