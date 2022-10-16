@@ -46,7 +46,6 @@ public class FetchData {
 
                 String req_url_1 = createURL(src,dateStart,dateMid);
                 String req_url_2 = createURL(src,dateMid,dateEnd);
-
                 decodeJson(currencyRateList,src,req_url_1);
                 decodeJson(currencyRateList,src,req_url_2);
 

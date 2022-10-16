@@ -2,6 +2,8 @@ package se233.chapter2.controller;
 
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextInputDialog;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se233.chapter2.Launcher;
 import se233.chapter2.model.Currency;
 import se233.chapter2.model.CurrencyEntity;
@@ -10,6 +12,8 @@ import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 
 public class AllEventHandler {
+    public static Logger logger = LoggerFactory.getLogger(AllEventHandler.class);
+
     public static void onRefresh() {
         try{
             Launcher.refreshPane();
@@ -42,16 +46,18 @@ public class AllEventHandler {
                     Currency c = new Currency(inputCurrency);
                     //Do query if the input are contained in the arraylist of currencyCode
                     if(flag) {
-                            ArrayList<Currency> currencyList = Launcher.getCurrencyList();
-                            for(int i = 0 ; i < currencyList.size(); i++) {
-                                if(currencyList.get(i).getShortCode().equals(inputCurrency)) return;
-                            }
-                            ArrayList<CurrencyEntity> c_list = FetchData.fetch_range(c.getShortCode(), 14);
-                            c.setHistorical(c_list);
-                            c.setCurrent(c_list.get(c_list.size() - 1));
-                            currencyList.add(c);
-                            Launcher.setCurrencyList(currencyList);
-                            Launcher.refreshPane();
+                        ArrayList<Currency> currencyList = Launcher.getCurrencyList();
+                        for(int i = 0 ; i < currencyList.size(); i++) {
+                            if(currencyList.get(i).getShortCode().equals(inputCurrency)) return;
+                        }
+                        ArrayList<CurrencyEntity> c_list = FetchData.fetch_range(c.getShortCode(), 14);
+                        c.setHistorical(c_list);
+                        c.setCurrent(c_list.get(c_list.size() - 1));
+                        currencyList.add(c);
+                        Launcher.setCurrencyList(currencyList);
+                        Launcher.refreshPane();
+//                        System.out.println("Add currency {}");
+                        logger.info("Add currency {}",code.get());
                     }else{
                         //If the response is empty that means the currency code is invalid
                         //Show the alert to re-enter again
@@ -87,9 +93,10 @@ public class AllEventHandler {
             }
 
             if(index != -1 ){
-                currencyList.remove(index);
+                Currency removedCurrency = currencyList.remove(index);
                 Launcher.setCurrencyList(currencyList);
                 Launcher.refreshPane();
+                logger.info("Delete currency {}",removedCurrency.getShortCode());
             }
 
         }catch (InterruptedException e) {

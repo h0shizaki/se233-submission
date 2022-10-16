@@ -46,7 +46,7 @@
             <configuration>
               <transformers>
                 <transformer>
-                  <mainClass>se.233.chapter5.JarLauncher</mainClass>
+                  <mainClass>se233.chapter5.JarLauncher</mainClass>
                 </transformer>
               </transformers>
             </configuration>

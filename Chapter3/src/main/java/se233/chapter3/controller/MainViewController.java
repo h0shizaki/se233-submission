@@ -9,6 +9,8 @@ import javafx.scene.control.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Popup;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se233.chapter3.Launcher;
 import se233.chapter3.model.FileFreq;
 import se233.chapter3.model.PDFdocument;
@@ -20,6 +22,7 @@ import java.util.concurrent.*;
 
 public class MainViewController {
     private Map<String , String> fileMap ;
+    Logger logger = LoggerFactory.getLogger(MainViewController.class);
     LinkedHashMap<String,ArrayList<FileFreq>> uniqueSets;
     @FXML
     private ListView<String> inputListView ;
@@ -121,6 +124,7 @@ public class MainViewController {
                     // Convert file name to file path by using fileMap
                     ArrayList<String> inputListViewName = new ArrayList<>() ;
                     for(int i = 0 ; i < inputListView.getItems().size() ;i++){
+                        logger.info("Open file: {}",inputListView.getItems().get(i));
                         inputListViewName.add(fileMap.get(inputListView.getItems().get(i)));
                     }
                     List<String> inputListViewItems = inputListViewName ;
