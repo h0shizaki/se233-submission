@@ -1,5 +1,7 @@
 package se233.chapter5.model;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import se233.chapter5.view.Platform;
 import javafx.geometry.Point2D;
 
@@ -10,6 +12,7 @@ public class Food {
     private Random rn ;
     private int score = 1 ;
     public boolean isSpecialFood = false ;
+    Logger logger = LoggerFactory.getLogger(Food.class);
 
     public Food(Point2D position){
         this.position = position ;
@@ -39,6 +42,8 @@ public class Food {
             }
             this.position = new Point2D(rn.nextInt(Platform.WIDTH), rn.nextInt(Platform.HEIGHT));
         }while (prev_position == this.position);
+
+        logger.info("spawn food at x:{}y:{}",this.position.getX(),this.position.getY());
     }
 
     public Point2D getPosition() {
